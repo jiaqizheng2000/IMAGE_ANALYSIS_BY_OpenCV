@@ -92,7 +92,7 @@ def img_height_get(image):
     #get_height of one tube
     get_height_for_single_tube(contours)
 
-def one_image_processing_Evap(filename):
+def one_image_processing_Evap_0321(filename):
     img = cv2.imread(filename)
     height,width=img.shape[:2]
     center=(width/2,height/2)
@@ -119,6 +119,8 @@ def one_image_processing_Evap(filename):
     height_all_for_all.append(height_all_for_one)
     height_all_for_one=[]
 
-def to_csv_Evap(store_path):
+def to_csv_Evap_0321(store_path):
+    global height_all_for_all
     df=pd.DataFrame(height_all_for_all)
     df.to_csv(store_path)
+    height_all_for_all=[]

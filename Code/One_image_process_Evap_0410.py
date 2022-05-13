@@ -98,32 +98,7 @@ def img_height_get(image):
     drawMyContours("countours",image,contours,True)
 
     #get_height of one tube
-    # get x,y
-    global counts
-    if len(contours) > 1:
-        h = []
-        for i in range(len(contours)):
-            rect = cv2.minAreaRect(contours[i])
-            box = cv2.boxPoints(rect)
-            box = np.int0(box)
-            h0 = (1 / h_coefficient) * (abs(box[0][1] - box[2][1]))
-            h.append(h0 / round(height_full[counts],4))
-            print(box)
-        height_all_for_one.append(max(h))
-    elif len(contours) == 0:
-        print("this pipe is empty")
-        height_all_for_one.append("0")
-    else:
-        rect = cv2.minAreaRect(contours[0])
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
-        print(box)
-        h = (1 / h_coefficient) * (abs(box[0][1] - box[2][1]))
-        height_all_for_one.append(h / round(height_full[counts],4))
-
-    counts+=1
-    counts%=11
-
+    get_height_for_single_tube(contours)
 
 def one_image_processing_evap_4_10(filename):
     img = cv2.imread(filename)
@@ -156,5 +131,7 @@ def one_image_processing_evap_4_10(filename):
     height_all_for_one=[]
 
 def to_csv_evap_4_10(store_path):
+    global height_all_for_all
     df=pd.DataFrame(height_all_for_all)
     df.to_csv(store_path)
+    height_all_for_all=[]

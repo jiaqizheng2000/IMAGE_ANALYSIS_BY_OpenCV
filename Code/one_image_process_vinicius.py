@@ -4,7 +4,8 @@ import pandas as pd
 h_coefficient = 0.25
 height_all_for_all=[]
 height_all_for_one = []
-height_average=2226.0
+height_full=[2296,2226,2200,2207,2215,2181,2215,2253,2253,2218,2222]
+counts=0
 
 def drawMyContours(winName, image, contours, draw_on_blank):
     # cv2.drawContours(image, contours, index, color, line_width)
@@ -25,6 +26,7 @@ def drawMyContours(winName, image, contours, draw_on_blank):
     # cv2.waitKey()
 
 def img_height_get(image):
+    global counts
     # resize image
     print(image.shape)
     height, width, channel = image.shape
@@ -78,7 +80,7 @@ def img_height_get(image):
             box= cv2.boxPoints(rect)
             box = np.int0(box)
             h0=(1 / h_coefficient) * (abs(box[0][1] - box[2][1]))
-            h.append(h0/height_average)
+            h.append(round(h0/height_full[counts],4))
             print(box)
         height_all_for_one.append(max(h))
     elif len(contours)==0:
@@ -90,8 +92,10 @@ def img_height_get(image):
         box = np.int0(box)
         print(box)
         h=(1/h_coefficient)*(abs(box[0][1]-box[2][1]))
-        height_all_for_one.append(h/height_average)
+        height_all_for_one.append(round(h/height_full[counts], 4))
 
+    counts+=1
+    counts%=11
 
 def one_image_processing_vincius(filename):
     img = cv2.imread(filename)
@@ -124,5 +128,7 @@ def one_image_processing_vincius(filename):
     height_all_for_one=[]
 
 def to_csv_vinicius(store_path):
+    global height_all_for_all
     df=pd.DataFrame(height_all_for_all)
     df.to_csv(store_path)
+    height_all_for_all=[]
