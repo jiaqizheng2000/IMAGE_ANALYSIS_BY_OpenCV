@@ -4,7 +4,7 @@ import pandas as pd
 h_coefficient = 0.25
 height_all_for_all=[]
 height_all_for_one = []
-height_full=[1987,1991,1967,1967,1978,1923,1955,1897,1876,1943,1897]
+height_full=[1871,1882,1862,1865,1868,1839,1873,1859,1829,1865,1853]
 counts=0
 
 def get_height_for_single_tube(contours):
@@ -16,7 +16,7 @@ def get_height_for_single_tube(contours):
             box= cv2.boxPoints(rect)
             box = np.int0(box)
             h0=(1 / h_coefficient) * (abs(box[0][1] - box[2][1]))
-            h.append(round(h0/height_full[i],4))
+            h.append(round(h0/height_full[i],3))
             print(box)
         height_all_for_one.append(max(h))
     elif len(contours)==0:
@@ -28,7 +28,7 @@ def get_height_for_single_tube(contours):
         box = np.int0(box)
         print(box)
         h=(1/h_coefficient)*(abs(box[0][1]-box[2][1]))
-        height_all_for_one.append(round(h/height_full[counts],4))
+        height_all_for_one.append(round(h/height_full[counts],3))
 
     counts+=1
     counts%=11
@@ -53,7 +53,7 @@ def drawMyContours(winName, image, contours, draw_on_blank):
 
 def img_height_get(image):
     # resize image
-    print(image.shape)
+    # print(image.shape)
     height, width, channel = image.shape
     image = cv2.resize(image, (int(1 * width), int(h_coefficient * height)), interpolation=cv2.INTER_CUBIC)
     # cv2.namedWindow('original',cv2.WINDOW_NORMAL)
@@ -107,7 +107,7 @@ def img_height_get(image):
             box = cv2.boxPoints(rect)
             box = np.int0(box)
             h0 = (1 / h_coefficient) * (abs(box[0][1] - box[2][1]))
-            h.append(h0 / round(height_full[counts],4))
+            h.append(round(h0/height_full[counts],3))
             print(box)
         height_all_for_one.append(max(h))
     elif len(contours) == 0:
@@ -119,25 +119,25 @@ def img_height_get(image):
         box = np.int0(box)
         print(box)
         h = (1 / h_coefficient) * (abs(box[0][1] - box[2][1]))
-        height_all_for_one.append(h / round(height_full[counts],4))
+        height_all_for_one.append(round(h / height_full[counts],3))
 
     counts+=1
     counts%=11
 
 
-def one_image_processing(filename):
+def one_image_processing_low(filename):
     img = cv2.imread(filename)
-    cropped_image1 = img[330:2317,950:1159]
-    cropped_image2 = img[338:2329,1268:1427]
-    cropped_image3 = img[347:2314,1459:1588]
-    cropped_image4 = img[341:2308,1609:1721]
-    cropped_image5 = img[333:2311,1785:1886]
-    cropped_image6 = img[397:2320,2040:2120]
-    cropped_image7 = img[327:2282,2120:2167]
-    cropped_image8 = img[356:2253,2300:2369]
-    cropped_image9 = img[353:2229,2416:2487]
-    cropped_image10 = img[330:2273,2534:2609]
-    cropped_image11 = img[353:2250,2663:2725]
+    cropped_image1 = img[423:2294,1060:1249]
+    cropped_image2 = img[420:2302,1365:1519]
+    cropped_image3 = img[423:2285,1517:1671]
+    cropped_image4 = img[429:2294,1680:1804]
+    cropped_image5 = img[417:2285,1832:1929]
+    cropped_image6 = img[490:2329,1970:2094]
+    cropped_image7 = img[394:2267,2137:2227]
+    cropped_image8 = img[394:2253,2330:2400]
+    cropped_image9 = img[409:2238,2478:2542]
+    cropped_image10 = img[388:2253,2575:2645]
+    cropped_image11 = img[397:2250,2718:2766]
 
     img_height_get(cropped_image1)
     img_height_get(cropped_image2)
@@ -155,7 +155,7 @@ def one_image_processing(filename):
     height_all_for_all.append(height_all_for_one)
     height_all_for_one=[]
 
-def to_csv(store_path):
+def to_csv_low(store_path):
     global height_all_for_all
     df=pd.DataFrame(height_all_for_all)
     df.to_csv(store_path)

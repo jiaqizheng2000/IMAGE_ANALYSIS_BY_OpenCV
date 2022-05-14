@@ -101,6 +101,8 @@ def one_image_processing(filename):
     retval = cv2.imwrite('D:/image_analyse/1.jpg',rotated_image)
 
 if __name__ == '__main__':
-    image_name='D:\image_analyse\images\\Evap.data\\IMG_20220321_141431.jpg'
-    one_image_processing(image_name)
-    # print(height_all_for_one)
+    image_name='D:\image_analyse\images\\12.jpg'
+    # one_image_processing(image_name)
+    img=cv2.imread(image_name)
+    img_height_get(img)
+    print(height_all_for_one)

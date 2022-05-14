@@ -135,7 +135,7 @@ def onmouse_draw_rect(event, x, y, flags, draw_rects):
 
 
 if __name__ == '__main__':
-    Image = cv2.imread('D:\IMAGE_ANALYSIS\\12.jpg')
+    Image = cv2.imread('D:\IMAGE_ANALYSIS\\1.jpg')
     draw_rects = DrawRects(Image, (0, 255, 0), 2)
     cv2.namedWindow(WIN_NAME, cv2.WINDOW_NORMAL)
     cv2.setMouseCallback(WIN_NAME, onmouse_draw_rect, draw_rects)
